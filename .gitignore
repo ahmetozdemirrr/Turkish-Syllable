@@ -1,0 +1,20 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C and C++ object files
+*.o
+
+# Shared libraries
+*.so
+
+# Output files
+output.txt
+
+# Logs and temp files
+*.log
+*~
+
+# Specific directories and files for this project
+input.txt
+syllable_processor

@@ -5,6 +5,7 @@ TARGET = libsyllable.so
 SRC_DIR = src
 INCLUDE_DIR = include
 
+
 all: $(TARGET)
 
 $(TARGET): $(SRC_DIR)/syllable.o
@@ -13,8 +14,12 @@ $(TARGET): $(SRC_DIR)/syllable.o
 $(SRC_DIR)/syllable.o: $(SRC_DIR)/syllable.c $(INCLUDE_DIR)/syllable.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
+
 clean:
-	rm -f $(SRC_DIR)/*.o $(TARGET)
+	rm -f $(SRC_DIR)/*.o $(TARGET) syllable_processor
+	rm -rf __pycache__
+	rm -f output.txt
+
 
 test: all
 	$(CC) $(SRC_DIR)/syllable_processor.c -o syllable_processor -I$(INCLUDE_DIR) -L. -lsyllable -Wall -Wextra
