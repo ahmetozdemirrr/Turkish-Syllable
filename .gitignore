@@ -1,0 +1,11 @@
+# Compile and package outputs
+dist/
+wheelhouse/
+*.egg-info/
+__pycache__/
+*.so
+*.pyc
+.pypirc
+
+# Virtual envs
+test_env*/

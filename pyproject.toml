@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "turkish-syllable"
+version = "0.1.1"
+authors = [
+  { name = "Ahmet Ozdemir", email = "ahmetozdemiir.ao@gmail.com" },
+]
+description = "A Turkish syllable splitter implemented in C with Python bindings"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: C",
+    "Operating System :: POSIX :: Linux",
+]
+
+[tool.setuptools]
+packages = ["turkish_syllable"]
+package-data = { "turkish_syllable" = ["libsyllable.so"] }
+
+[[tool.setuptools.ext-modules]]
+name = "turkish_syllable.libsyllable"
+sources = ["turkish_syllable/syllable.c"]
+include-dirs = ["include"]
+extra-compile-args = ["-Wall", "-Wextra", "-Werror", "-fPIC"]
+
+[project.urls]
+Homepage = "https://github.com/ahmetozdemirrr/Turkish-Syllable"
+Issues = "https://github.com/ahmetozdemirrr/Turkish-Syllable/issues"
