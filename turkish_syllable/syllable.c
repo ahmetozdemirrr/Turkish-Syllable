@@ -213,23 +213,42 @@ void syllabify_text_with_punctuation(const wchar_t * content, SyllableList * syl
 {
     wchar_t word[100] = L"";
     size_t word_index = 0;
+    bool is_number = true;
     int len = wcslen(content);
 
     for (int i = 0; i <= len; i++) {
-        if (iswalnum(content[i])) {
+        if (iswalpha(content[i])) {
             if (word_index + 1 >= sizeof(word) / sizeof(wchar_t)) {
                 fprintf(stderr, "Error: Word too long.\n");
                 exit(EXIT_FAILURE);
             }
             word[word_index++] = content[i];
             word[word_index] = L'\0';
+            is_number = false;
         } 
+
+        else if (iswdigit(content[i])) {
+            if (word_index + 1 >= sizeof(word) / sizeof(wchar_t)) {
+                fprintf(stderr, "Error: Word too long.\n");
+                exit(EXIT_FAILURE);
+            }
+            word[word_index++] = content[i];
+            word[word_index] = L'\0';
+        }
 
         else {
             if (word_index > 0) {
                 word[word_index] = L'\0';
-                syllabify(word, syllable_list);
+                
+                if (is_number) {
+                    append_syllable(syllable_list, word);
+                } 
+
+                else {
+                    syllabify(word, syllable_list);
+                }
                 word_index = 0;
+                is_number = true;
             }
 
             if (with_punctuation && (iswpunct(content[i]) || iswspace(content[i]))) {
@@ -241,7 +260,13 @@ void syllabify_text_with_punctuation(const wchar_t * content, SyllableList * syl
 
     if (word_index > 0) {
         word[word_index] = L'\0';
-        syllabify(word, syllable_list);
+        if (is_number) {
+            append_syllable(syllable_list, word);
+        } 
+
+        else {
+            syllabify(word, syllable_list);
+        }
     }
 }
 

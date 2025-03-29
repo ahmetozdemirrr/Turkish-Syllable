@@ -2,6 +2,8 @@
 
 `turkish-syllable` is a library for syllabification of Turkish text, written in C and accessible using Python connectors. It works quickly and efficiently, produces results that follow Turkish spelling rules, and offers optional inclusion of punctuation.
 
+**Important Note:** This library is able to separate the syllables of words of Turkish origin according to the rules of the Turkish Language Association (TDK), but it does not provide a definitive solution for words of foreign origin. Although these words are often spelled correctly, incorrect spelling can be encountered due to language structure.
+
 ## Features
 - **Turkish Spelling**: Works according to the spelling rules specific to the Turkish language (for example, “merhaba” → `['mer', 'ha', 'ba']`).
 - **Punctuation Support**: Optionally adds punctuation marks and spaces to the syllable list (`with_punctuation` parameter).
@@ -26,12 +28,12 @@ from turkish_syllable import syllabify
 # with punctuation
 result = syllabify("Merhaba, dünya!") # default value of with_punctuation is True
 print(result)
-# output: ['Mer', 'ha', 'ba', ',', ' ', 'dü', 'nya', '!']
+# output: ['Mer', 'ha', 'ba', ',', ' ', 'dün', 'ya', '!']
 
 # without punctuation
 result = syllabify("Merhaba, dünya!", with_punctuation=False)
 print(result)
-# output: ['Mer', 'ha', 'ba', 'dü', 'nya']
+# output: ['Mer', 'ha', 'ba', 'dün', 'ya']
 ```
 
 ### Using with command line:
@@ -42,14 +44,14 @@ python -m turkish_syllable -i input.txt -o output.txt -p
 # or enter the text directly:
 python -m turkish_syllable -p
 # sample input: "Merhaba, dünya!"
-# output: Mer ha ba ,   dü nya !
+# output: Mer ha ba ,   dün ya !
 
 # without punctuation
 python -m turkish_syllable -i input.txt -o output.txt --no-punctuation
 # or:
 python -m turkish_syllable --no-punctuation
 # sample input: "Merhaba, dünya!"
-# output: Mer ha ba dü nya
+# output: Mer ha ba dün ya
 ```
 
 ## Technical Details
@@ -79,5 +81,6 @@ If you want to contribute:
 For questions or suggestions: ahmetozdemiir.ao@gmail.com
 
 ## Version History
+* **0.1.2**: Fixing some bugs.
 * **0.1.1**: Added `with_punctuation` parameter, shortened function name to `syllabify`.
 * **0.1.0**: Initial release.
