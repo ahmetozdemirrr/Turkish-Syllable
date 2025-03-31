@@ -295,6 +295,22 @@ void syllabify_text_with_punctuation(const wchar_t * content, SyllableList * syl
 /* Initialization function required for Python C API */
 PyMODINIT_FUNC PyInit_libsyllable(void) 
 {
+    /**********************************************
+    
+        typedef struct PyModuleDef 
+        {
+            PyModuleDef_Base m_base;
+            const char* m_name;
+            const char* m_doc;
+            Py_ssize_t m_size;
+            PyMethodDef* m_methods;
+            struct PyModuleDef_Slot * m_slots;
+            ...others...
+        } 
+        PyModuleDef;
+    
+    **********************************************/
+    
     /* create the module definition */
     static PyModuleDef module_def = 
     {
@@ -303,6 +319,7 @@ PyMODINIT_FUNC PyInit_libsyllable(void)
         "A C extension module for Turkish syllable splitting",  /* module dokumentation */
         -1,  /* -1 for global state (static module) */
         NULL,  /* methods (NULL for now, because there is no method to call directly from Python) */
+        NULL,  /* m_slots (for Python 3.5+) */
     };
     /* Create and return the module */
     return PyModule_Create(&module_def);
