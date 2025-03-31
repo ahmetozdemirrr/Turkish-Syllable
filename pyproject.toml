@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "turkish-syllable"
-version = "0.2.2"
+version = "0.2.3"
 authors = [
   { name = "Ahmet Ozdemir", email = "ahmetozdemiir.ao@gmail.com" },
 ]
@@ -29,7 +29,7 @@ package-data = { "turkish_syllable" = ["libsyllable.*"] }
 name = "turkish_syllable.libsyllable"
 sources = ["turkish_syllable/syllable.c"]
 include-dirs = ["include"]
-extra-compile-args = ["-Wall", "-Wextra", "-Werror", "-fPIC"]
+extra-compile-args = ["-Wall", "-Wextra", "-Werror"]
 
 [project.urls]
 Homepage = "https://github.com/ahmetozdemirrr/Turkish-Syllable"

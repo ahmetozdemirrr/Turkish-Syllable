@@ -36,13 +36,20 @@ jobs:
         choco install -y visualstudio2019-workload-vctools
       shell: cmd
 
-    - name: Build wheel
+    - name: Build wheel (Linux and macOS)
+      if: matrix.os != 'windows-latest'
+      run: |
+        python -m build --config-setting=--build-option=--fPIC
+      continue-on-error: true
+
+    - name: Build wheel (Windows)
+      if: matrix.os == 'windows-latest'
       run: |
         python -m build
-      continue-on-error: true  # Hata olsa bile devam et
+      continue-on-error: true
 
     - name: Repair wheel for Linux (manylinux)
-      if: matrix.os == 'Ubuntu-latest'
+      if: matrix.os == 'ubuntu-latest'
       run: |
         auditwheel repair dist/turkish_syllable-*-cp310-cp310-linux_x86_64.whl
       continue-on-error: true
