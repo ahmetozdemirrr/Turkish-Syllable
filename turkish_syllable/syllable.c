@@ -1,5 +1,9 @@
 /* syllable.c */
 
+#ifdef _WIN32
+#define _CRT_SECURE_NO_WARNINGS  /* Suppress wcscpy warning in Windows */
+#endif
+
 #include <syllable.h>
 
 bool is_vowel(wchar_t c) 
@@ -17,7 +21,7 @@ bool is_vowel(wchar_t c)
 void syllabify(const wchar_t * word, SyllableList * syllable_list)
 {
     wchar_t current_syllable[50] = L"";
-    int len = wcslen(word);
+    size_t len = wcslen(word);
     int i = 0;
 
     /* Special case: Consonant-Vowel-Consonant-Consonant (CVCVC) structure */
@@ -231,9 +235,9 @@ void syllabify_text_with_punctuation(const wchar_t * content, SyllableList * syl
     wchar_t word[100] = L"";
     size_t word_index = 0;
     bool is_number = true;
-    int len = wcslen(content);
+    size_t len = wcslen(content);
 
-    for (int i = 0; i <= len; i++) {
+    for (size_t i = 0; i <= len; i++) {
         if (iswalpha(content[i])) {
             if (word_index + 1 >= sizeof(word) / sizeof(wchar_t)) {
                 fprintf(stderr, "Error: Word too long.\n");
