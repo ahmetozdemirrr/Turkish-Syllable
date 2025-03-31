@@ -5,7 +5,7 @@ from setuptools import setup, Extension
 if sys.platform in ["linux", "darwin"]:  # for Linux and macOS
     extra_compile_args = ["-Wall", "-Wextra", "-Werror", "-fPIC"]
 elif sys.platform == "win32":  # for Windows
-    extra_compile_args = ["/W4", "/WX", "/wd4996"]
+    extra_compile_args = ["/W4", "/WX", "/wd4996", "/wd4115"]
 else:
     extra_compile_args = []  # default for other platforms
 

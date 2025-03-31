@@ -2,6 +2,7 @@
 
 #ifdef _WIN32
 #define _CRT_SECURE_NO_WARNINGS  /* Suppress wcscpy warning in Windows */
+#include <winsock2.h>  /* To define the timeval structure in Windows */
 #endif
 
 #include <syllable.h>
