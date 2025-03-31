@@ -9,7 +9,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [Ubuntu-latest, windows-latest, macos-latest]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
@@ -21,17 +21,32 @@ jobs:
           pip install build auditwheel --upgrade
       - name: Build wheel
         run: python -m build
+      - name: List dist contents before repair
+        if: matrix.os == 'Ubuntu-latest'
+        run: ls -la dist/
       - name: Repair wheel (Linux only)
         if: matrix.os == 'Ubuntu-latest'
         run: |
           auditwheel repair dist/turkish_syllable-*.whl --wheel-dir wheelhouse/
+      - name: List wheelhouse contents before upload
+        run: |
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
+            dir wheelhouse/
+          else
+            ls -la wheelhouse/
+          fi
       - name: Move wheels to wheelhouse (Windows and macOS)
         if: matrix.os != 'Ubuntu-latest'
         run: |
           mkdir -p wheelhouse
           mv dist/*.whl wheelhouse/
       - name: List wheelhouse contents before upload
-        run: ls -la wheelhouse/
+        run: |
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
+            dir wheelhouse/
+          else
+            ls -la wheelhouse/
+          fi
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
