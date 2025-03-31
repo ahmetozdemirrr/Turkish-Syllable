@@ -15,10 +15,10 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
@@ -39,14 +39,14 @@ jobs:
         python -m build
 
     - name: Repair wheel for Linux (manylinux)
-      if: matrix.os == 'Ubuntu-latest'
+      if: matrix.os == 'ubuntu-latest'
       run: |
         auditwheel repair dist/turkish_syllable-*-cp310-cp310-linux_x86_64.whl
 
     - name: Upload wheels
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: wheels
+        name: wheels-${{ matrix.os }}  # Her platform için ayrı bir artifact adı
         path: |
           dist/*.whl
           wheelhouse/*.whl
@@ -57,10 +57,12 @@ jobs:
     if: github.event_name == 'release' && github.event.action == 'published'
 
     steps:
-    - uses: actions/download-artifact@v3
+    - name: Download wheels
+      uses: actions/download-artifact@v4
       with:
-        name: wheels
         path: dist
+        pattern: wheels-*  # Tüm platformlardan artifact'ları indir
+        merge-multiple: true  # Birden fazla artifact'ı birleştir
 
     - name: Publish to PyPI
       env:
