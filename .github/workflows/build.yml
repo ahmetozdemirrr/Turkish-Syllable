@@ -76,7 +76,7 @@ jobs:
         run: ls -la wheelhouse/
       - name: Publish to TestPyPI
         run: |
-          python -m pip install twine --upgrade
+          python -m pip install twine==6.0.1  # twine sürümünü 6.0.1'e sabitliyoruz
           twine upload --repository testpypi wheelhouse/*.whl
         env:
           TWINE_USERNAME: __token__
@@ -102,7 +102,7 @@ jobs:
         run: ls -la wheelhouse/*/
       - name: Publish to PyPI
         run: |
-          python -m pip install twine --upgrade
+          python -m pip install twine==6.0.1  # twine sürümünü 6.0.1'e sabitliyoruz
           twine upload wheelhouse/*/*.whl
         env:
           TWINE_USERNAME: __token__
