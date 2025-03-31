@@ -4,13 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "turkish-syllable"
-version = "0.2.19"
+version = "0.2.20"
 authors = [
   { name = "Ahmet Ozdemir", email = "ahmetozdemiir.ao@gmail.com" },
 ]
 description = "A Turkish syllable splitter implemented in C with Python bindings"
 readme = "README.md"
-license = "LICENSE"
 requires-python = ">=3.6"
 classifiers = [
     "Programming Language :: Python :: 3",
