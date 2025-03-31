@@ -22,7 +22,7 @@ void syllabify(const wchar_t * word, SyllableList * syllable_list)
 {
     wchar_t current_syllable[50] = L"";
     size_t len = wcslen(word);
-    int i = 0;
+    size_t i = 0;
 
     /* Special case: Consonant-Vowel-Consonant-Consonant (CVCVC) structure */
     if (len == 4 && !is_vowel(word[0]) && is_vowel(word[1]) && 
