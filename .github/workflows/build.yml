@@ -21,7 +21,12 @@ jobs:
           pip install build auditwheel --upgrade
       - name: Clean dist directory
         run: |
-          rm -rf dist/*
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
+            if (Test-Path dist) { Remove-Item -Path dist\* -Recurse -Force }
+          else
+            rm -rf dist/*
+          fi
+        shell: bash
       - name: Build wheel
         run: python -m build
       - name: List dist contents before repair
