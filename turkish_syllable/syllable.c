@@ -5,6 +5,7 @@
 #endif
 
 #include <syllable.h>
+#include <Python.h>  /* We add the Python C API header file */
 
 bool is_vowel(wchar_t c) 
 {
@@ -289,6 +290,22 @@ void syllabify_text_with_punctuation(const wchar_t * content, SyllableList * syl
             syllabify(word, syllable_list);
         }
     }
+}
+
+/* Initialization function required for Python C API */
+PyMODINIT_FUNC PyInit_libsyllable(void) 
+{
+    /* create the module definition */
+    static PyModuleDef module_def = 
+    {
+        PyModuleDef_HEAD_INIT,
+        "libsyllable",  /* module name */
+        "A C extension module for Turkish syllable splitting",  /* module dokumentation */
+        -1,  /* -1 for global state (static module) */
+        NULL,  /* methods (NULL for now, because there is no method to call directly from Python) */
+    };
+    /* Create and return the module */
+    return PyModule_Create(&module_def);
 }
 
 void init_syllable_list(SyllableList * list) 
