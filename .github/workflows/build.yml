@@ -28,26 +28,20 @@ jobs:
         if: matrix.os == 'Ubuntu-latest'
         run: |
           auditwheel repair dist/turkish_syllable-*.whl --wheel-dir wheelhouse/
-      - name: List wheelhouse contents before upload
-        run: |
-          if [ "${{ matrix.os }}" = "windows-latest" ]; then
-            dir wheelhouse/
-          else
-            ls -la wheelhouse/
-          fi
       - name: Move wheels to wheelhouse (Windows and macOS)
         if: matrix.os != 'Ubuntu-latest'
-        shell: bash  # Windows'ta bile bash kullanmasını sağlıyoruz
+        shell: bash
         run: |
           mkdir -p wheelhouse
           mv dist/*.whl wheelhouse/
-      - name: List wheelhouse contents before upload (Linux and macOS)
-        if: matrix.os != 'windows-latest'
-        run: ls -la wheelhouse/
-      - name: List wheelhouse contents before upload (Windows)
-        if: matrix.os == 'windows-latest'
-        shell: powershell
-        run: dir wheelhouse\
+      - name: List wheelhouse contents before upload
+        run: |
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
+            dir wheelhouse
+          else
+            ls -la wheelhouse/
+          fi
+        shell: bash
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
