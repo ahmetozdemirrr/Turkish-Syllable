@@ -36,6 +36,35 @@ print(result)
 # output: ['Mer', 'ha', 'ba', 'dün', 'ya']
 ```
 
+or directly on the file:
+
+```Python
+from turkish_syllable.csyllable_tr import process_input_output
+
+input_file = "input.txt"
+output_file = "output.txt"
+
+"""
+function:
+	- process_input_output: function that does the spelling on files
+parameters:
+	- input_file:  file with the text to be spelled
+	- output_file: the name of the file where the spelled text will be written
+	- with_punctuation: indicates whether punctuation and space characters should be included in the spelling 		process (default=True)
+"""
+process_input_output(input_file=input_file, output_file=output_file, with_punctuation=True)
+
+with open(output_file, "r", encoding="utf-8") as f:
+    print("With punctuation:")
+    print(f.read())
+
+process_input_output(input_file=input_file, output_file=output_file, with_punctuation=False)
+
+with open(output_file, "r", encoding="utf-8") as f:
+    print("\nWithout punctuation:")
+    print(f.read())
+```
+
 ### Using with command line:
 
 ```bash
@@ -81,6 +110,8 @@ If you want to contribute:
 For questions or suggestions: ahmetozdemiir.ao@gmail.com
 
 ## Version History
+* **0.1.4**: README improved
+* **0.1.3**: README improved and fixing some bugs
 * **0.1.2**: Fixing some bugs.
 * **0.1.1**: Added `with_punctuation` parameter, shortened function name to `syllabify`.
 * **0.1.0**: Initial release.
