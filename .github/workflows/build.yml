@@ -34,7 +34,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install build wheel
-      shell: bash  # Windows’ta bash kabuğunu kullan
 
     - name: Install build tools (Windows)
       if: matrix.os == 'windows-latest'
@@ -43,18 +42,10 @@ jobs:
         choco install -y visualstudio2019-workload-vctools
       shell: cmd
 
-    - name: Build wheel (Linux and macOS)
-      if: matrix.os != 'windows-latest'
-      run: |
-        python -m build --config-setting=--build-option=--fPIC
-      continue-on-error: false  # Hata varsa dur
-
-    - name: Build wheel (Windows)
-      if: matrix.os == 'windows-latest'
+    - name: Build wheel
       run: |
         python -m build
       continue-on-error: false  # Hata varsa dur
-      shell: bash  # Windows’ta bash kabuğunu kullan
 
     - name: Repair wheel for Linux (manylinux)
       if: matrix.os == 'Ubuntu-latest' && success()  # Önceki adım başarılıysa çalış
