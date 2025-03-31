@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "turkish-syllable"
-version = "0.2.4"
+version = "0.2.6"
 authors = [
   { name = "Ahmet Ozdemir", email = "ahmetozdemiir.ao@gmail.com" },
 ]
@@ -24,12 +24,6 @@ classifiers = [
 [tool.setuptools]
 packages = ["turkish_syllable"]
 package-data = { "turkish_syllable" = ["libsyllable.*"] }
-
-[[tool.setuptools.ext-modules]]
-name = "turkish_syllable.libsyllable"
-sources = ["turkish_syllable/syllable.c"]
-include-dirs = ["include"]
-extra-compile-args = ["-Wall", "-Wextra", "-Werror"]
 
 [project.urls]
 Homepage = "https://github.com/ahmetozdemirrr/Turkish-Syllable"
