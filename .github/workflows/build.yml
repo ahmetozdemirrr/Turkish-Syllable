@@ -27,6 +27,14 @@ jobs:
             rm -rf dist/*
           fi
         shell: bash
+      - name: Set compile flags
+        run: |
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
+            echo "CFLAGS=/W4 /WX /wd4996 /wd4115" >> $GITHUB_ENV
+          else
+            echo "CFLAGS=-Wall -Wextra -Werror -fPIC" >> $GITHUB_ENV
+          fi
+        shell: bash
       - name: Build wheel
         run: python -m build
       - name: List dist contents before repair
