@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "turkish-syllable"
-version = "0.2.10"
+version = "0.2.11"
 authors = [
   { name = "Ahmet Ozdemir", email = "ahmetozdemiir.ao@gmail.com" },
 ]
