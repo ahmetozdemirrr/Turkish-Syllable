@@ -53,6 +53,12 @@
   deactivate
   ```
 
+or with Docker:
+
+  ```
+  sudo docker run --rm -it python:3.10-slim bash -c "pip install --index-url https://test.pypi.org/simple/ turkish-syllable && python -c 'from turkish_syllable import syllabify; print(syllabify(\"Merhaba, dünya\"))'"
+  ```
+
 10. If everything is OK in TestPyPI, upload the image to PyPI:
 
   ```
@@ -69,3 +75,10 @@
     python -c "from turkish_syllable import syllabify; print(syllabify('Merhaba, dünya!'))"
     deactivate
     ```
+
+or with Docker:
+
+  ```
+  sudo docker run --rm -it python:3.10-slim bash -c "pip install turkish-syllable && python -c 'from turkish_syllable import syllabify; print(syllabify(\"Merhaba, dünya\"))'"
+  ```
+

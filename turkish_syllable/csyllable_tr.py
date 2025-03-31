@@ -1,10 +1,44 @@
+# csyllable_tr.py --platform independency...
+
 import ctypes
 import os
+import sys
+import platform
 
 
-# Load the shared library (C code compiled to a shared object file)
-lib_path = os.path.join(os.path.dirname(__file__), 'libsyllable.so')
-lib = ctypes.CDLL(lib_path)
+# Determine dynamic library extension according to platform
+def get_library_extension():
+    if sys.platform.startswith("linux"):     # linux (many)
+        return ".so"
+    elif sys.platform.startswith("darwin"):  # macOS
+        return ".dylib"
+    elif sys.platform.startswith("win32"):   # Windows
+        return ".dll"
+    else:
+        raise RuntimeError(f"This library only supports operating systems Linux, MacOS and Windows!\nUnsupported platform: {sys.platform}.")
+
+
+# Find and load the dynamic library file
+def load_library():
+    lib_name = f"libsyllable{get_library_extension()}"
+    lib_path = os.path.join(os.path.dirname(__file__), lib_name)
+    if not os.path.exists(lib_path):
+        raise FileNotFoundError(
+            f"Dynamic library not found: {lib_path}. "
+            f"Please ensure the library is compiled for your platform ({sys.platform})."
+        )
+    try:
+        return ctypes.CDLL(lib_path)
+    except OSError as e:
+        raise RuntimeError(f"Failed to load dynamic library {lib_path}: {str(e)}")
+
+
+# load library
+try:
+    lib = load_library()
+except (FileNotFoundError, RuntimeError) as e:
+    print(f"Error: {str(e)}")
+    sys.exit(1)
 
 
 # Define the SyllableList struct
@@ -41,6 +75,7 @@ def syllabify(content, with_punctuation=True):
     
     # Initialize the syllable list
     lib.init_syllable_list(ctypes.byref(syllable_list))
+    
     # Call the syllabify function
     lib.syllabify_text_with_punctuation(content, ctypes.byref(syllable_list), with_punctuation)
     

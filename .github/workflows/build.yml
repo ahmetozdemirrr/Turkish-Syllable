@@ -1,0 +1,71 @@
+name: Build and Publish Wheels
+
+on:
+  push:
+    branches: [main]
+  release:
+    types: [published]
+
+jobs:
+  build-wheels:
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build wheel
+        if [ "${{ matrix.os }}" == "ubuntu-latest" ]; then pip install auditwheel; fi
+
+    - name: Install build tools (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        choco install -y mingw
+      shell: cmd
+
+    - name: Build wheel
+      run: |
+        python -m build
+
+    - name: Repair wheel for Linux (manylinux)
+      if: matrix.os == 'Ubuntu-latest'
+      run: |
+        auditwheel repair dist/turkish_syllable-*-cp310-cp310-linux_x86_64.whl
+
+    - name: Upload wheels
+      uses: actions/upload-artifact@v3
+      with:
+        name: wheels
+        path: |
+          dist/*.whl
+          wheelhouse/*.whl
+
+  publish:
+    needs: build-wheels
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release' && github.event.action == 'published'
+
+    steps:
+    - uses: actions/download-artifact@v3
+      with:
+        name: wheels
+        path: dist
+
+    - name: Publish to PyPI
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+      run: |
+        pip install twine
+        twine upload dist/*

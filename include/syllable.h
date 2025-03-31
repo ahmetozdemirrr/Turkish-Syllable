@@ -8,7 +8,7 @@
 #include <stdbool.h>
 #include <wchar.h>
 #include <wctype.h>
-#include <locale.h>
+#include <locale.h> /* platform dependency !! look when you use */
 #include <stdlib.h>
 
 #define MAX_SYLLABLE_LENGTH 10

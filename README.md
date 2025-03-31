@@ -8,7 +8,7 @@
 - **Turkish Spelling**: Works according to the spelling rules specific to the Turkish language (for example, “merhaba” → `['mer', 'ha', 'ba']`).
 - **Punctuation Support**: Optionally adds punctuation marks and spaces to the syllable list (`with_punctuation` parameter).
 - **Fast Performance**: C-based algorithm provides fast results even for large texts.
-- **Platform Compatibility**: Works on Linux based systems (**manylinux** compatible).
+- **Platform Compatibility**: The library is platform independent as of version 0.2.0.
 
 ## Installation
 
@@ -69,16 +69,16 @@ with open(output_file, "r", encoding="utf-8") as f:
 
 ```bash
 # with punctuation (default)
-python -m turkish_syllable -i input.txt -o output.txt -p
+python3 -m turkish_syllable -i input.txt -o output.txt -p
 # or enter the text directly:
-python -m turkish_syllable -p
+python3 -m turkish_syllable -p
 # sample input: "Merhaba, dünya!"
 # output: Mer ha ba ,   dün ya !
 
 # without punctuation
-python -m turkish_syllable -i input.txt -o output.txt --no-punctuation
+python3 -m turkish_syllable -i input.txt -o output.txt --no-punctuation
 # or:
-python -m turkish_syllable --no-punctuation
+python3 -m turkish_syllable --no-punctuation
 # sample input: "Merhaba, dünya!"
 # output: Mer ha ba dün ya
 ```
@@ -90,12 +90,14 @@ python -m turkish_syllable --no-punctuation
 * **Dependencies:** No extra Python dependencies are required, only standard libraries are used.
 * **File Structure:**
 	- **syllable.c**: C source code containing the spelling logic.
-	- **libsyllable.so**: Compiled shared library.
+	- **libsyllable.so**: Compiled shared library (Linux-many).
+	- **libsyllable.dll**: Compiled shared library (Windows).
+	- **libsyllable.dylib**: Compiled shared library (MacOS).
 	- **csyllable_en.py**: Python linker.
 
 ## Requirements
 * **Python 3.6** or higher
-* Linux operating system (with **manylinux** compatible build)
+* It can run on all operating systems.
 
 ## License
 Distributed under this project (MIT).

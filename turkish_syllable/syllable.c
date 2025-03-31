@@ -211,6 +211,23 @@ void syllabify(const wchar_t * word, SyllableList * syllable_list)
 
 void syllabify_text_with_punctuation(const wchar_t * content, SyllableList * syllable_list, bool with_punctuation) 
 {
+    #ifdef _WIN32
+        /* 
+            Windows-specific code (future parallel processing)
+            for ex.: parallel processing with CreateThread
+        */
+    #elif defined(__APPLE__)
+        /*
+            macOS-specific code (future parallel processing)
+            for ex.: parallel processing with Grand Central Dispatch (GCD)
+        */
+    #else
+        /*
+            Linux/Unix-specific code (future parallel processing)
+            for ex.: parallel procesing with POSIX threads (pthread)
+        */
+    #endif
+
     wchar_t word[100] = L"";
     size_t word_index = 0;
     bool is_number = true;

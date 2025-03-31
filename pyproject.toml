@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "turkish-syllable"
-version = "0.1.4"
+version = "0.2.0"
 authors = [
   { name = "Ahmet Ozdemir", email = "ahmetozdemiir.ao@gmail.com" },
 ]
@@ -15,12 +15,15 @@ requires-python = ">=3.6"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: C",
-    "Operating System :: POSIX :: Linux",
+    "Operating System :: OS Independent",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Text Processing :: Linguistic",
 ]
 
 [tool.setuptools]
 packages = ["turkish_syllable"]
-package-data = { "turkish_syllable" = ["libsyllable.so"] }
+package-data = { "turkish_syllable" = ["libsyllable.*"] }
 
 [[tool.setuptools.ext-modules]]
 name = "turkish_syllable.libsyllable"
