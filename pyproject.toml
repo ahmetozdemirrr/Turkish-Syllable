@@ -27,8 +27,10 @@ packages = ["turkish_syllable"]
 package-data = { "turkish_syllable" = ["libsyllable.*"] }
 
 [tool.setuptools.ext-modules]
-# C uzantısını tanımlıyoruz
-"turkish_syllable.libsyllable" = { sources = ["turkish_syllable/syllable.c"], include-dirs = ["include"] }
+[[tool.setuptools.ext-modules]]
+name = "turkish_syllable.libsyllable"
+sources = ["turkish_syllable/syllable.c"]
+include-dirs = ["include"]
 
 [project.urls]
 Homepage = "https://github.com/ahmetozdemirrr/Turkish-Syllable"
