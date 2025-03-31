@@ -112,6 +112,7 @@ If you want to contribute:
 For questions or suggestions: ahmetozdemiir.ao@gmail.com
 
 ## Version History
+* **0.2.1**: Platform independency, README improved
 * **0.1.4**: README improved
 * **0.1.3**: README improved and fixing some bugs
 * **0.1.2**: Fixing some bugs.
