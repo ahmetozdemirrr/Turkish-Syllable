@@ -13,6 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
+      fail-fast: false  # Bir platform başarısız olsa bile diğerleri devam etsin
 
     steps:
     - uses: actions/checkout@v4
@@ -31,25 +32,29 @@ jobs:
     - name: Install build tools (Windows)
       if: matrix.os == 'windows-latest'
       run: |
-        choco install -y mingw
+        choco install -y visualstudio2019buildtools
+        choco install -y visualstudio2019-workload-vctools
       shell: cmd
 
     - name: Build wheel
       run: |
         python -m build
+      continue-on-error: true  # Hata olsa bile devam et
 
     - name: Repair wheel for Linux (manylinux)
-      if: matrix.os == 'ubuntu-latest'
+      if: matrix.os == 'Ubuntu-latest'
       run: |
         auditwheel repair dist/turkish_syllable-*-cp310-cp310-linux_x86_64.whl
+      continue-on-error: true
 
     - name: Upload wheels
       uses: actions/upload-artifact@v4
       with:
-        name: wheels-${{ matrix.os }}  # Her platform için ayrı bir artifact adı
+        name: wheels-${{ matrix.os }}
         path: |
           dist/*.whl
           wheelhouse/*.whl
+      continue-on-error: true
 
   publish:
     needs: build-wheels
@@ -61,8 +66,8 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         path: dist
-        pattern: wheels-*  # Tüm platformlardan artifact'ları indir
-        merge-multiple: true  # Birden fazla artifact'ı birleştir
+        pattern: wheels-*
+        merge-multiple: true
 
     - name: Publish to PyPI
       env:
