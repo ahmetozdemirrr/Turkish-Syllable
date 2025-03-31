@@ -19,6 +19,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install build auditwheel --upgrade
+      - name: Clean dist directory
+        run: |
+          rm -rf dist/*
       - name: Build wheel
         run: python -m build
       - name: List dist contents before repair
