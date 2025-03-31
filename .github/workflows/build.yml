@@ -11,7 +11,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
-      - uses: actions/checkout@v4  # checkout da v4'e güncellendi
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
@@ -22,10 +22,15 @@ jobs:
       - name: Build wheel
         run: python -m build
       - name: Repair wheel (Linux only)
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'Ubuntu-latest'
         run: auditwheel repair dist/turkish_syllable-*.whl
+      - name: Move wheels to wheelhouse (Windows and macOS)
+        if: matrix.os != 'Ubuntu-latest'
+        run: |
+          mkdir -p wheelhouse
+          mv dist/*.whl wheelhouse/
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4  # v3 yerine v4
+        uses: actions/upload-artifact@v4
         with:
           name: wheels-${{ matrix.os }}
           path: wheelhouse/
@@ -34,7 +39,7 @@ jobs:
     needs: build-wheels
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4  # v3 yerine v4
+      - uses: actions/download-artifact@v4
         with:
           name: wheels-ubuntu-latest
           path: wheelhouse/
@@ -52,15 +57,15 @@ jobs:
     needs: publish-testpypi
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4  # v3 yerine v4
+      - uses: actions/download-artifact@v4
         with:
           name: wheels-ubuntu-latest
           path: wheelhouse/ubuntu/
-      - uses: actions/download-artifact@v4  # v3 yerine v4
+      - uses: actions/download-artifact@v4
         with:
           name: wheels-windows-latest
           path: wheelhouse/windows/
-      - uses: actions/download-artifact@v4  # v3 yerine v4
+      - uses: actions/download-artifact@v4
         with:
           name: wheels-macos-latest
           path: wheelhouse/macos/
