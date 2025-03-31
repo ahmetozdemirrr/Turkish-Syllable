@@ -18,7 +18,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install build auditwheel
+          pip install build auditwheel --upgrade  # En son sürümleri yükle
       - name: Build wheel
         run: python -m build
       - name: Repair wheel (Linux only)
@@ -41,13 +41,13 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: wheels-ubuntu-latest
+          name: wheels-Ubuntu-latest
           path: wheelhouse/
       - name: List wheelhouse contents
         run: ls -la wheelhouse/
       - name: Publish to TestPyPI
         run: |
-          python -m pip install twine
+          python -m pip install twine --upgrade  # En son sürümü yükle
           twine upload --repository testpypi wheelhouse/*.whl
         env:
           TWINE_USERNAME: __token__
@@ -59,7 +59,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: wheels-ubuntu-latest
+          name: wheels-Ubuntu-latest
           path: wheelhouse/ubuntu/
       - uses: actions/download-artifact@v4
         with:
@@ -73,7 +73,7 @@ jobs:
         run: ls -la wheelhouse/*/
       - name: Publish to PyPI
         run: |
-          python -m pip install twine
+          python -m pip install twine --upgrade  # En son sürümü yükle
           twine upload wheelhouse/*/*.whl
         env:
           TWINE_USERNAME: __token__
