@@ -300,17 +300,19 @@ PyMODINIT_FUNC PyInit_libsyllable(void)
         typedef struct PyModuleDef 
         {
             PyModuleDef_Base m_base;
-            const char* m_name;
-            const char* m_doc;
+            const char * m_name;
+            const char * m_doc;
             Py_ssize_t m_size;
-            PyMethodDef* m_methods;
+            PyMethodDef * m_methods;
             struct PyModuleDef_Slot * m_slots;
-            ...others...
+            traverseproc m_traverse;
+            inquiry m_clear;
+            freefunc m_free;
         } 
         PyModuleDef;
     
     **********************************************/
-    
+
     /* create the module definition */
     static PyModuleDef module_def = 
     {
@@ -319,7 +321,14 @@ PyMODINIT_FUNC PyInit_libsyllable(void)
         "A C extension module for Turkish syllable splitting",  /* module dokumentation */
         -1,  /* -1 for global state (static module) */
         NULL,  /* methods (NULL for now, because there is no method to call directly from Python) */
-        NULL,  /* m_slots (for Python 3.5+) */
+#if PY_VERSION_HEX >= 0x03050000  /* Python 3.5+ */
+        NULL,  // m_slots
+#endif
+#if PY_VERSION_HEX >= 0x03000000  /* Python 3.0+ */
+        NULL,  /* m_traverse */
+        NULL,  /* m_clear    */
+        NULL   /* m_free     */
+#endif
     };
     /* Create and return the module */
     return PyModule_Create(&module_def);
