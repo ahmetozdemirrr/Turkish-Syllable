@@ -11,7 +11,7 @@ authors = [
 description = "A Turkish syllable splitter implemented in C with Python bindings"
 readme = "README.md"
 requires-python = ">=3.6"
-license = { file = "LICENSE" }
+license = "MIT"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: C",
@@ -19,7 +19,6 @@ classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "Topic :: Text Processing :: Linguistic",
-    "License :: OSI Approved :: MIT License",
 ]
 
 [tool.setuptools]
