@@ -22,7 +22,7 @@ jobs:
       - name: Clean dist directory
         run: |
           if [ "${{ matrix.os }}" = "windows-latest" ]; then
-            if (Test-Path dist) { Remove-Item -Path dist\* -Recurse -Force }
+            powershell -Command "if (Test-Path dist) { Remove-Item -Path dist\\* -Recurse -Force }"
           else
             rm -rf dist/*
           fi
