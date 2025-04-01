@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "turkish-syllable"
-version = "0.2.30"
+version = "0.2.32"
 authors = [
   { name = "Ahmet Ozdemir", email = "ahmetozdemiir.ao@gmail.com" },
 ]
@@ -39,3 +39,5 @@ Issues = "https://github.com/ahmetozdemirrr/Turkish-Syllable/issues"
 [tool.cibuildwheel]
 build = ["cp39-*", "cp310-*", "cp311-*", "cp312-*", "cp313-*"]
 build-verbosity = 1
+before-build = "python -m pip install setuptools"
+after-build = "python -c \"import shutil; shutil.copy('build/lib*/turkish_syllable/libsyllable.*', 'turkish_syllable/')\""
